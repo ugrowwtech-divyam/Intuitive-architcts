@@ -3,6 +3,7 @@ import { ArrowRight, Quote } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import ChatWidget from "@/components/ui/ChatWidget";
+import HeroContent from "@/components/ui/HeroContent";
 
 import { projects } from "@/data/projects";
 
@@ -50,17 +51,7 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black" />
         </div>
-        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto mt-20">
-          <h1 className="text-5xl md:text-8xl font-serif text-white font-bold mb-6 tracking-tight drop-shadow-lg">
-            Design Beyond <span className="text-gradient-gold italic">Boundaries</span>.
-          </h1>
-          <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-            We are Intuitive Architects, shaping environments where human experience and nature converge in perfect harmony.
-          </p>
-          <Link href="/portfolio" className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-gold text-black font-semibold tracking-widest uppercase text-sm hover:scale-105 transition-transform duration-500 rounded-sm">
-            Explore Our Work <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
+        <HeroContent />
       </section>
 
       {/* Accomplishments Section - Masonry Grid */}
