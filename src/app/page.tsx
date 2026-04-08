@@ -40,19 +40,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1600607687983-05ef8821cbd1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-            alt="Hero Architectural Image"
-            fill
-            className="object-cover opacity-50 mix-blend-luminosity"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black" />
-        </div>
-        <HeroContent />
-      </section>
+      <HeroContent />
 
       {/* Accomplishments Section - Masonry Grid */}
       <section className="py-24 px-4 bg-black">

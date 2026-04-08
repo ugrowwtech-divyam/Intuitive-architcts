@@ -1,76 +1,97 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 
 export default function HeroContent() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.08, delayChildren: 0.1 }
-    }
-  };
+  const containerRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    // By using "start start" and "end end", scrollYProgress goes from 0 to 1
+    // over the height of the container minus the viewport height.
+    offset: ["start start", "end end"]
+  });
 
-  const wordVariants = {
-    hidden: { y: "150%", opacity: 0, rotate: 2 },
-    visible: { 
-      y: "0%", 
-      opacity: 1, 
-      rotate: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } 
-    }
-  };
+  // "Design Beyond Boundaries." (Default State)
+  // 0.0 - 0.15: Fades out as user starts scrolling
+  const subOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
+  const subScale = useTransform(scrollYProgress, [0, 0.15], [1, 1.05]);
+  const subBlur = useTransform(scrollYProgress, [0, 0.15], ["blur(0px)", "blur(10px)"]);
 
-  // Helper function to map words into animated chunks with proper overflow hiding
-  const AnimatedText = ({ text, className, highlightWord, highlightClass }: { text: string, className?: string, highlightWord?: string, highlightClass?: string }) => {
-    return (
-      <span className={`inline-flex flex-wrap justify-center gap-x-[0.25em] ${className || ""}`}>
-        {text.split(" ").map((word, i) => {
-          const isHighlight = highlightWord && word.includes(highlightWord);
-          return (
-            <span key={i} className="inline-block overflow-hidden relative" style={{ margin: '-0.1em', padding: '0.1em' }}>
-              <motion.span 
-                variants={wordVariants} 
-                className={`inline-block ${isHighlight ? highlightClass : ""}`}
-                style={{ willChange: "transform, opacity" }} // Hardware acceleration for smoother anim
-              >
-                {word}
-              </motion.span>
-            </span>
-          );
-        })}
-      </span>
-    );
-  };
+  // "Intuitive Architects" (Main Company Name)
+  // 0.15 - 0.35: Fades in slowly
+  // 0.35 - 1.0: Stays there for the remaining scroll amount
+  const headingOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0, 1]);
+  const headingScale = useTransform(scrollYProgress, [0.15, 0.35], [1.05, 1]);
+  const headingBlur = useTransform(scrollYProgress, [0.15, 0.35], ["blur(12px)", "blur(0px)"]);
+  
+  // Background parallax / fade out mechanics
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+  const bgVisualOpacity = useTransform(scrollYProgress, [0, 0.8, 1], [0.5, 0.5, 0]);
 
   return (
-    <motion.div 
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className="relative z-10 text-center px-4 max-w-5xl mx-auto mt-20 flex flex-col items-center"
-    >
-      <h1 className="text-5xl sm:text-6xl md:text-8xl font-serif text-white font-bold mb-2 tracking-tight drop-shadow-lg leading-[1.1] uppercase">
-        <AnimatedText text="Intuitive Architects" />
-      </h1>
+    // container h-[400vh] to allow massive scroll depth for these animations.
+    <section ref={containerRef} className="relative h-[400vh] w-full bg-black">
       
-      <h2 className="text-2xl md:text-5xl font-serif text-white mb-8 tracking-tight drop-shadow-lg leading-tight opacity-90">
-        <AnimatedText text="Design Beyond Boundaries." highlightWord="Boundaries" highlightClass="text-gradient-gold italic pr-1" />
-      </h2>
-      
-      <div className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-        <AnimatedText text="We are Intuitive Architects, shaping environments where human experience and nature converge in perfect harmony." />
-      </div>
-
-      <div className="inline-block overflow-hidden p-2">
-        <motion.div variants={wordVariants}>
-          <Link href="/portfolio" className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-gold text-black font-semibold tracking-widest uppercase text-sm hover:scale-105 transition-transform duration-500 rounded-sm">
-            Explore Our Work <ArrowRight className="w-4 h-4" />
-          </Link>
+      {/* Sticky wrapper stays in viewport while scrolling through the 400vh */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+        
+        {/* Background Layer */}
+        <motion.div 
+          className="absolute inset-0 z-0 origin-center"
+          style={{ scale: bgScale, opacity: bgVisualOpacity }}
+        >
+          <Image
+            src="https://images.unsplash.com/photo-1600607687983-05ef8821cbd1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+            alt="Hero Architectural Image"
+            fill
+            className="object-cover mix-blend-luminosity"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black" />
         </motion.div>
+
+        {/* Text Layer - Relative container so we can absolute position the two overlapping headings */}
+        <div className="relative z-10 text-center px-4 max-w-5xl w-full mx-auto flex items-center justify-center">
+          
+          <motion.h2 
+            style={{ 
+              opacity: subOpacity,
+              scale: subScale,
+              filter: subBlur
+            }}
+            className="absolute text-5xl sm:text-6xl md:text-8xl font-serif text-white tracking-tight drop-shadow-lg leading-tight w-full pointer-events-none"
+          >
+            Design Beyond <span className="text-gradient-gold italic pr-1">Boundaries.</span>
+          </motion.h2>
+
+          <motion.h1 
+            style={{ 
+              opacity: headingOpacity,
+              scale: headingScale,
+              filter: headingBlur,
+            }}
+            className="absolute text-5xl sm:text-6xl md:text-8xl font-serif text-white font-bold tracking-tight drop-shadow-lg leading-[1.1] uppercase origin-center w-full pointer-events-none"
+          >
+            Intuitive Architects
+          </motion.h1>
+          
+        </div>
+        
+        {/* Scroll Indicator */}
+        <motion.div 
+          style={{ opacity: useTransform(scrollYProgress, [0, 0.05], [1, 0]) }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50"
+        >
+          <span className="text-xs uppercase tracking-widest font-semibold">Scroll to explore</span>
+          <div className="w-[1px] h-12 bg-white/20 relative overflow-hidden">
+             <div className="absolute top-0 left-0 w-full h-[50%] bg-gradient-gold animate-[bounce_2s_infinite]" />
+          </div>
+        </motion.div>
+
       </div>
-    </motion.div>
+    </section>
   );
 }
