@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="col-span-1 md:col-span-1 border-l-2 border-arch-gold pl-4">
           <Link href="/" className="inline-block mb-4">
-            <span className="text-arch-gold font-serif text-2xl font-bold">Intuit Architects</span>
+            <span className="text-arch-gold font-serif text-2xl font-bold">Intuitive Architects</span>
           </Link>
           <p className="text-arch-muted leading-relaxed text-sm">
             Crafting premium architectural experiences that blend form, function, and nature. Elevating design standards since 2012.
@@ -44,7 +44,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-arch-card text-center text-arch-muted text-sm">
-        <p>&copy; {new Date().getFullYear()} Intuit Architects. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Intuitive Architects. All rights reserved.</p>
       </div>
     </footer>
   );

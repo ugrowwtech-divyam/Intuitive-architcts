@@ -16,7 +16,7 @@ export default function Navbar() {
             <div className="w-10 h-10 bg-arch-gray rounded border border-arch-gold/30 flex items-center justify-center group-hover:border-arch-gold transition-colors">
               <span className="text-arch-gold font-[family-name:var(--font-outfit)] font-medium text-xl">I</span>
             </div>
-            <span className="text-arch-gold font-[family-name:var(--font-outfit)] text-xl md:text-2xl font-light tracking-[0.15em] uppercase">INTUIT ARCHITECTS</span>
+            <span className="text-arch-gold font-[family-name:var(--font-outfit)] text-xl md:text-2xl font-light tracking-[0.15em] uppercase">INTUITIVE ARCHITECTS</span>
           </Link>
           <button
             onClick={() => setIsPanelOpen(true)}

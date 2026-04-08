@@ -5,7 +5,7 @@ import ProjectCard from "@/components/ui/ProjectCard";
 import { projects } from "@/data/projects";
 import { motion, AnimatePresence } from "framer-motion";
 
-const categories = ["All", "Residential", "Commercial", "Interior", "Cultural"];
+const categories = ["All", "Design Consultancy", "Construction (Turnkey)", "Architecture/Interior", "3D Visualisation"];
 
 export default function Portfolio() {
   const [filter, setFilter] = useState("All");
@@ -28,8 +28,8 @@ export default function Portfolio() {
               onClick={() => setFilter(cat)}
               className={`px-6 py-2 rounded-full text-sm tracking-widest uppercase transition-all duration-300 ${
                 filter === cat 
-                  ? "bg-arch-gold text-arch-black font-semibold" 
-                  : "bg-arch-card text-arch-muted hover:text-arch-white border border-arch-gray hover:border-arch-gold/50"
+                  ? "bg-gradient-gold text-black font-semibold" 
+                  : "bg-arch-card text-arch-muted hover:text-white border border-arch-gray hover:border-[#d4af37]/50"
               }`}
             >
               {cat}

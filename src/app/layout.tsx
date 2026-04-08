@@ -20,8 +20,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Intuit Architects | Premium Architecture",
-  description: "Portfolio of Intuit Architects, an architectural firm dedicated to excellence.",
+  title: "Intuitive Architects | Premium Architecture",
+  description: "Portfolio of Intuitive Architects, an architectural firm dedicated to excellence.",
 };
 
 export default function RootLayout({
